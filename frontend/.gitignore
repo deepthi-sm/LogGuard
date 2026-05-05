@@ -1,0 +1,26 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+.vite/
+.eslintcache
+
+# Generated client (regenerate with `npm run generate-types`)
+src/api/generated.ts
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Env
+.env
+.env.local
+.env.*.local

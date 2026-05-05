@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * LogGuard design tokens.
+ * The dark theme is the default. `[data-theme="light"]` swaps every variable
+ * atomically — no component-level branching needed.
+ *
+ * Severity rule (do not violate): critical = coral, warning = amber,
+ * info = cyan. Never red/orange/blue.
+ */
+
+:root,
+[data-theme="dark"] {
+  /* Brand */
+  --iris: #a78bfa;
+  --iris-deep: #7c3aed;
+  --anomaly: #fb7185;
+  --anomaly-deep: #be123c;
+
+  /* Severity (dark mode) */
+  --severity-critical: #fb7185;
+  --severity-warning: #fdba74;   /* peach */
+  --severity-info: #93c5fd;      /* sky */
+  --severity-success: #34d399;
+
+  /* Surfaces */
+  --bg-page: #0a0a0a;
+  --bg-sidebar: #050505;
+  --bg-card: #16161a;
+  --bg-hover: #1f1f23;
+  --border-subtle: #1f1f1f;
+  --border-default: #2a2a2e;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #c0c0c8;
+  --text-tertiary: #7a7a85;
+  --text-muted: #555555;
+}
+
+[data-theme="light"] {
+  /* Brand stays similar but slightly deeper for contrast */
+  --iris: #7c3aed;
+  --iris-deep: #5b21b6;
+  --anomaly: #be123c;
+  --anomaly-deep: #9f1239;
+
+  /* Severity (light mode) */
+  --severity-critical: #be123c;
+  --severity-warning: #d97706;
+  --severity-info: #0891b2;
+  --severity-success: #059669;
+
+  /* Surfaces */
+  --bg-page: #fafaf7;
+  --bg-sidebar: #f5f5f0;
+  --bg-card: #ffffff;
+  --bg-hover: #f0eee5;
+  --border-subtle: #e8e6dd;
+  --border-default: #d8d6cd;
+
+  /* Text */
+  --text-primary: #1a1a1a;
+  --text-secondary: #444444;
+  --text-tertiary: #888780;
+  --text-muted: #aaaaaa;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01";
+  /* Safety net against any element accidentally pushing wider than the
+     viewport (a 100vw section + side padding, an unbounded preview
+     image, a transform that overruns). The vertical scroll is already
+     visible; this only suppresses the horizontal one. */
+  overflow-x: hidden;
+}
+
+/* Tabular numerics on data — applied per-element via the `tabular-nums`
+   utility, but make sure mono numbers also align by default. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
