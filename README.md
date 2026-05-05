@@ -13,12 +13,12 @@ Most prior log-anomaly systems do one of: anomaly detection, failure prediction,
 Six layers, three pipelines. See `docs/architecture/system_overview.md` for the full walkthrough.
 
 ```
-Layer 1 — Log sources       → Redis Streams (burst buffer)
+Layer 1 — Log sources       → Redis Streams
 Layer 2 — Ingestion         → Drain3 templates + sliding-window sequences
-Layer 3 — Vectorization     → SBERT embeddings (TF-IDF baseline)
+Layer 3 — Vectorization     → SBERT embeddings 
 Layer 4 — Detection         → Transformer + AutoEncoder ensemble + confidence + drift
-Layer 5 — RAG explanation   → FAISS retrieval + local LLaMA 3 8B via Ollama
-Layer 6 — Alerting          → PagerDuty / Slack / email by severity
+Layer 5 — RAG explanation   → FAISS retrieval + local LLaMA 3 via Ollama
+Layer 6 — Presentation      → Dashboard
 ```
 
 ## Quick start
