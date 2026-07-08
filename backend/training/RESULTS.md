@@ -1,4 +1,4 @@
-# AIOps-LogGuard — Training & Evaluation Results
+# LogGuard — Training & Evaluation Results
 
 Auto-generated companion to `training/run_proper_eval.py`. **These are the
 paper numbers.** They supersede the earlier `RESULTS.md` whose F1=1.000

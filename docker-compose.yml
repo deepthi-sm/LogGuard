@@ -1,4 +1,4 @@
-# AIOps-LogGuard — local dev stack.
+# LogGuard — local dev stack.
 #
 # Services:
 #   redis    — Streams (logs:raw, anomalies:detected, anomalies:broadcast) + pubsub
@@ -63,7 +63,7 @@ services:
       postgres:
         condition: service_healthy
     # Artifacts (.pt, faiss.index, drain3_state.bin) live on the host — never baked
-    # into the image. project hard rules forbids retraining on deploy.
+    # into the image. The project's hard rules forbid retraining on deploy.
     volumes:
       - ./backend/artifacts:/app/artifacts
 

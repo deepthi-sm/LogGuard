@@ -121,7 +121,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="AIOps-LogGuard API",
+    title="LogGuard API",
     version=VERSION,
     lifespan=lifespan,
 )

@@ -1,6 +1,6 @@
 # System Overview — Six-Layer Architecture
 
-This is the full technical walkthrough of AIOps-LogGuard. This doc explains how each layer actually works.
+This is the full technical walkthrough of LogGuard. This doc explains how each layer actually works.
 
 ## Layer 1 — Log sources
 

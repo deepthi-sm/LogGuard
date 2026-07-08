@@ -1,4 +1,4 @@
--- AIOps-LogGuard — Postgres schema
+-- LogGuard — Postgres schema
 -- Run as a migration on first boot
 
 CREATE TABLE IF NOT EXISTS anomalies (
