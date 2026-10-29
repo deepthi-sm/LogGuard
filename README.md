@@ -254,11 +254,19 @@ Health check once the stack is up:
 curl http://localhost:8000/api/v1/health
 ```
 
+### One-click demo (Windows)
+
+With Docker Desktop running, the backend virtual environment set up in `backend/.venv`, frontend dependencies installed and the trained artifacts in `backend/artifacts/`:
+
+- **`start_demo.bat`** starts Redis (host port `6380`), Postgres and Ollama, then opens four windows for the API, ingestion runner, RAG explainer and dashboard. Each session starts with an empty dashboard.
+- Open http://localhost:5173 and upload a `.log` or `.txt` file on the **Upload** page. Anomalies appear as the file is processed, and root-cause explanations follow from the RAG worker.
+- **`stop_demo.bat`** closes the four windows and stops the containers.
+
 ---
 
 ## 🦙 LLaMA / GPU Deployment
 
-The RAG worker calls Ollama on **every** detected anomaly (no precomputed cache short-circuit), so per-call latency is bounded by model + hardware:
+The RAG worker calls Ollama for every detected anomaly, so per-call latency is bounded by model + hardware:
 
 <div align="center">
 
