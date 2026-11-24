@@ -1,0 +1,96 @@
+name: CI
+
+# Two jobs: backend (Python) and frontend (Node/Vite). The frontend job
+# gates ITS STEPS on the existence of `frontend/package.json` rather than
+# the whole job — that pattern works (job-level `if: hashFiles(...)` does
+# not, because hashFiles runs before checkout and finds nothing).
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: logguard_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+      - name: Lint with ruff
+        run: |
+          cd backend
+          ruff check .
+      - name: Type check with mypy
+        run: |
+          cd backend
+          mypy . || true   # advisory until typing is stable
+      - name: Run tests
+        env:
+          LOGGUARD_DB_URL: postgresql://postgres:postgres@localhost:5432/logguard_test
+          LOGGUARD_REDIS_URL: redis://localhost:6379/0
+        run: |
+          cd backend
+          pytest -v
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect frontend code
+        id: detect
+        shell: bash
+        run: |
+          if [ -f frontend/package.json ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.detect.outputs.exists == 'true'
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        if: steps.detect.outputs.exists == 'true'
+        run: |
+          cd frontend
+          npm install --no-audit --no-fund
+      - name: Type check
+        if: steps.detect.outputs.exists == 'true'
+        run: |
+          cd frontend
+          npm run lint
+      - name: Build
+        if: steps.detect.outputs.exists == 'true'
+        run: |
+          cd frontend
+          npm run build
